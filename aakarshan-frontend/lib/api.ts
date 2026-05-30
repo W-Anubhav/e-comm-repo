@@ -1,4 +1,10 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+let baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+// Self-healing: if NEXT_PUBLIC_API_URL does not end with /api, append it automatically
+if (baseUrl && !baseUrl.endsWith('/api') && !baseUrl.endsWith('/api/')) {
+  const cleanUrl = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+  baseUrl = `${cleanUrl}/api`;
+}
+const API_URL = baseUrl;
 
 export interface Product {
   id: string;
