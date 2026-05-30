@@ -73,8 +73,10 @@ router.post(
       }
 
       // Format dynamic self-referencing absolute HTTP/HTTPS URL
+      const host = req.get('host') || '';
+      const protocol = (host.startsWith('localhost') || host.startsWith('127.0.0.1')) ? req.protocol : 'https';
       const relativePath = `/uploads/${file.filename}`;
-      const publicUrl = `${req.protocol}://${req.get('host')}${relativePath}`;
+      const publicUrl = `${protocol}://${host}${relativePath}`;
 
       res.status(200).json({ image_url: publicUrl });
     } catch (error) {

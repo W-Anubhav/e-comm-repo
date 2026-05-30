@@ -14,6 +14,7 @@ import authRoutes from './routes/auth.routes';
 dotenv.config();
 
 const app = express();
+app.enable('trust proxy');
 const PORT = process.env.PORT || 5000;
 const prisma = new PrismaClient();
 
