@@ -31,4 +31,3 @@ databases:
   - name: aakarshan-db
     plan: free
     databaseName: aakarshan
-    user: postgres
