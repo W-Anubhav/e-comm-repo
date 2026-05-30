@@ -23,10 +23,18 @@ app.use(helmet({
 }));
 
 // 2. Strict CORS Configuration
-const allowedOrigin = process.env.CLIENT_URL || 'http://localhost:3000';
+const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
+const cleanedClientUrl = clientUrl.endsWith('/') ? clientUrl.slice(0, -1) : clientUrl;
+
+const allowedOrigins = [
+  cleanedClientUrl,
+  'https://e-comm-repo.vercel.app',
+  'https://e-comm-repo-git-main-manubhav619-9876s-projects.vercel.app'
+];
+
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || origin === allowedOrigin || allowedOrigin === '*' || origin.startsWith('http://localhost:')) {
+    if (!origin || allowedOrigins.includes(origin) || origin.startsWith('http://localhost:')) {
       callback(null, true);
     } else {
       callback(new Error(`CORS Security Violation: Origin ${origin} not allowed`));
