@@ -1,0 +1,34 @@
+# Render Infrastructure-as-code Blueprint Specification
+# Push this file to GitHub, go to https://dashboard.render.com/blueprints, 
+# connect your repository, and Render will deploy both database and backend in one-click!
+
+services:
+  # 1. Express API Backend Web Service
+  - type: web
+    name: aakarshan-backend
+    env: node
+    plan: free
+    rootDir: aakarshan-backend
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true # Render will automatically generate a cryptographically secure JWT secret key
+      - key: CLIENT_URL
+        value: http://localhost:3000 # Replace this with your frontend Vercel deployment URL once hosted
+      # Render automatically links the PostgreSQL database connection string here!
+      - key: DATABASE_URL
+        fromDatabase:
+          name: aakarshan-db
+          property: connectionString
+
+databases:
+  # 2. Managed PostgreSQL Database Service
+  - name: aakarshan-db
+    plan: free
+    databaseName: aakarshan
+    user: postgres
