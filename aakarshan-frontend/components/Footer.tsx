@@ -30,7 +30,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm text-brand-cream/80">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-brand-crimson shrink-0 mt-0.5" />
-                <span>Akarshan Women's Wear, Opp. Clothing Plaza, Lucknow, Uttar Pradesh, India</span>
+                <span>Sulem sarai,Preetam nagar, Infront of gurudwara rs tower, Jayantipur, Prayagraj, Uttar Pradesh 211011</span>
               </li>
               <li className="flex items-center gap-3">
                 <Clock className="w-5 h-5 text-brand-crimson shrink-0" />
