@@ -8,12 +8,12 @@ import { z, ZodError } from 'zod';
 export const productSchema = z.object({
   title: z.string()
     .trim()
-    .min(3, 'Title must be at least 3 characters long')
+    .min(2, 'Title must be at least 2 characters long')
     .max(80, 'Title cannot exceed 80 characters')
     .regex(/^[^<>]*$/, 'HTML tags are not allowed in titles'), // Basic XSS check
   description: z.string()
     .trim()
-    .min(10, 'Description must be at least 10 characters long')
+    .min(2, 'Description must be at least 2 characters long')
     .max(1000, 'Description cannot exceed 1000 characters')
     .regex(/^[^<>]*$/, 'HTML tags are not allowed in descriptions'), // Basic XSS check
   price: z.number({ message: 'Price is required and must be a number' })

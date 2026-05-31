@@ -61,6 +61,10 @@ export async function createProduct(productData: Omit<Product, 'id' | 'created_a
   });
   if (!response.ok) {
     const err = await response.json();
+    if (err.error === 'Input Validation Failed' && Array.isArray(err.details)) {
+      const detailedMessages = err.details.map((d: any) => d.message).join(', ');
+      throw new Error(`Validation Error: ${detailedMessages}`);
+    }
     throw new Error(err.error || 'Failed to create product listing');
   }
   return await response.json();
@@ -80,6 +84,10 @@ export async function updateProduct(id: string, productData: Partial<Product>, t
   });
   if (!response.ok) {
     const err = await response.json();
+    if (err.error === 'Input Validation Failed' && Array.isArray(err.details)) {
+      const detailedMessages = err.details.map((d: any) => d.message).join(', ');
+      throw new Error(`Validation Error: ${detailedMessages}`);
+    }
     throw new Error(err.error || 'Failed to update product details');
   }
   return await response.json();
