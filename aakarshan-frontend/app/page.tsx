@@ -65,19 +65,28 @@ export default function Storefront() {
         // Fetch from Express API
         const data = await fetchProducts(selectedCategory === "All" ? undefined : selectedCategory);
         if (data && data.length > 0) {
-          setProducts(data);
+          const finalData = selectedCategory === "All"
+            ? data.filter(p => p.category !== "Sarees" && p.category !== "Lehengas")
+            : data;
+          setProducts(finalData);
         } else {
           // Fallback to beautiful static products if API returns empty
-          const filteredFallback = selectedCategory === "All" 
+          let filteredFallback = selectedCategory === "All" 
             ? FALLBACK_PRODUCTS
             : FALLBACK_PRODUCTS.filter(p => p.category === selectedCategory);
+          if (selectedCategory === "All") {
+            filteredFallback = filteredFallback.filter(p => p.category !== "Sarees" && p.category !== "Lehengas");
+          }
           setProducts(filteredFallback);
         }
       } catch (err) {
         console.warn("Could not connect to Express backend. Loading beautiful local demo items.", err);
-        const filteredFallback = selectedCategory === "All" 
+        let filteredFallback = selectedCategory === "All" 
           ? FALLBACK_PRODUCTS
           : FALLBACK_PRODUCTS.filter(p => p.category === selectedCategory);
+        if (selectedCategory === "All") {
+          filteredFallback = filteredFallback.filter(p => p.category !== "Sarees" && p.category !== "Lehengas");
+        }
         setProducts(filteredFallback);
       } finally {
         setLoading(false);
@@ -175,6 +184,29 @@ export default function Storefront() {
             <p className="text-brand-dark/70 text-sm tracking-widest font-semibold uppercase animate-pulse">
               Curating Fine Garments...
             </p>
+          </div>
+        ) : (selectedCategory === "Sarees" || selectedCategory === "Lehengas") ? (
+          <div className="flex flex-col items-center justify-center py-16 px-6 border border-brand-gold/25 rounded-3xl bg-brand-gold/5 max-w-2xl mx-auto shadow-md text-center animate-fadeIn">
+            <Sparkles className="w-10 h-10 text-brand-gold mb-4 animate-pulse" />
+            <h3 className="text-2xl font-serif font-bold text-brand-dark tracking-wide">
+              {selectedCategory} Collection
+            </h3>
+            <span className="mt-2 text-[10px] font-bold uppercase tracking-widest text-brand-crimson bg-brand-crimson/15 px-4 py-1.5 rounded-full border border-brand-crimson/20">
+              Coming Soon
+            </span>
+            <p className="mt-4 text-brand-dark/70 text-sm leading-relaxed max-w-md">
+              Our exclusive collection of premium handpicked {selectedCategory.toLowerCase()} is currently being curated with our master weavers. We are selecting only the finest threads and patterns for you.
+            </p>
+            <div className="mt-8">
+              <a
+                href={`https://wa.me/919369261352?text=${encodeURIComponent(`Hello Aakarshan, I am interested in previewing your upcoming ${selectedCategory} collection. Please share any updates or catalog previews!`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-crimson hover:bg-brand-gold text-brand-cream text-xs font-bold uppercase tracking-wider rounded-full shadow-md transition-all duration-300 transform hover:scale-105"
+              >
+                Inquire on WhatsApp
+              </a>
+            </div>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
