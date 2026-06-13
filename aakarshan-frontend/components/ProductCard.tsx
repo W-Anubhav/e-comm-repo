@@ -25,12 +25,17 @@ export default function ProductCard({ product }: ProductCardProps) {
   const initiateWhatsAppCheckout = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation(); // Block card modal trigger
     const targetNumber = "919369261352";
+    
+    // Check if the image is a Base64 data string to avoid sending huge texts in WhatsApp
+    const isBase64 = product.image_url.startsWith("data:image/");
+    const imageLine = isBase64 ? "" : `\n📸 *Reference Image:* ${product.image_url}`;
+
     const message = `Hello Akarshan, I want to buy this gorgeous dress from your storefront:
     
 ✨ *Product Name:* ${product.title}
 🏷️ *Category:* ${product.category}
-💰 *Price:* ${formattedPrice}
-📸 *Reference Image:* ${product.image_url}
+💰 *Price:* ${formattedPrice}${imageLine}
+🔗 *Store Link:* https://aakarshangarb.in
 
 Please verify availability and advise how I can complete the checkout and sizing options!`;
 
