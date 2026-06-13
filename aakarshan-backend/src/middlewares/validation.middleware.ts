@@ -26,8 +26,10 @@ export const productSchema = z.object({
     .regex(/^[^<>]*$/, 'HTML tags are not allowed in categories'),
   image_url: z.string()
     .trim()
-    .url('Image URL must be a valid HTTP or HTTPS URL')
-    .regex(/^https:\/\/.*$/, 'Image URL must be served over secure HTTPS')
+    .refine(
+      (val) => val.startsWith('https://') || val.startsWith('data:image/'),
+      { message: 'Image must be a secure HTTPS URL or a valid Base64 data URL' }
+    )
 });
 
 /**

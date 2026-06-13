@@ -30,7 +30,9 @@ const cleanedClientUrl = clientUrl.endsWith('/') ? clientUrl.slice(0, -1) : clie
 const allowedOrigins = [
   cleanedClientUrl,
   'https://e-comm-repo.vercel.app',
-  'https://e-comm-repo-git-main-manubhav619-9876s-projects.vercel.app'
+  'https://e-comm-repo-git-main-manubhav619-9876s-projects.vercel.app',
+  'https://aakarshangarb.in',
+  'https://www.aakarshangarb.in'
 ];
 
 app.use(cors({
